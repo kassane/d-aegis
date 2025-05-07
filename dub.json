@@ -1,0 +1,201 @@
+{
+	"name": "aegis",
+	"description": "AEGIS high performance ciphers for D",
+	"license": "BSL-1.0",
+	"version": "0.1.0",
+	"toolchainRequirements": {
+		"frontend": ">=2.111.0"
+	},
+	"authors": [
+		"Matheus Catarino França"
+	],
+	"targetName": "d-aegis",
+	"targetPath": "build",
+	"buildTypes": {
+		"debug": {
+			"buildOptions": [
+				"debugMode",
+				"debugInfo"
+			]
+		},
+		"release": {
+			"buildOptions": [
+				"releaseMode",
+				"optimize",
+				"inline"
+			]
+		}
+	},
+	"libs-posix": [
+		"aegis"
+	],
+	"libs-windows": [
+		"aegis",
+		"ws2_32"
+	],
+	"libs-windows-dmd": [
+		"aegis",
+		"ws2_32",
+		"bcrypt"
+	],
+	"lflags-linux": [
+		"-L$PACKAGE_DIR/build"
+	],
+	"lflags-osx": [
+		"-L$PACKAGE_DIR/build"
+	],
+	"lflags-windows": [
+		"/LIBPATH:$PACKAGE_DIR\\build"
+	],
+	"dflags": [
+		"-preview=all",
+		"-P-I$PACKAGE_DIR/libaegis-main/src/include"
+	],
+	"dflags-ldc": [
+		"--verrors-context",
+		"-mcpu=native"
+	],
+	"dflags-dmd": [
+		"-verrors=context"
+	],
+	"preBuildCommands-linux": [
+		"mkdir -p $PACKAGE_DIR/build",
+		"curl -sLO https://github.com/aegis-aead/libaegis/archive/refs/heads/main.tar.gz",
+		"tar xzf main.tar.gz",
+		"rm main.tar.gz",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128l_aesni.o $PACKAGE_DIR/libaegis-main/src/aegis128l/aegis128l_aesni.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128l_altivec.o $PACKAGE_DIR/libaegis-main/src/aegis128l/aegis128l_altivec.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128l_armcrypto.o $PACKAGE_DIR/libaegis-main/src/aegis128l/aegis128l_armcrypto.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128l_soft.o $PACKAGE_DIR/libaegis-main/src/aegis128l/aegis128l_soft.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128l.o $PACKAGE_DIR/libaegis-main/src/aegis128l/aegis128l.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x2_aesni.o $PACKAGE_DIR/libaegis-main/src/aegis128x2/aegis128x2_aesni.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x2_altivec.o $PACKAGE_DIR/libaegis-main/src/aegis128x2/aegis128x2_altivec.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x2_avx2.o $PACKAGE_DIR/libaegis-main/src/aegis128x2/aegis128x2_avx2.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x2_armcrypto.o $PACKAGE_DIR/libaegis-main/src/aegis128x2/aegis128x2_armcrypto.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x2_soft.o $PACKAGE_DIR/libaegis-main/src/aegis128x2/aegis128x2_soft.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x2.o $PACKAGE_DIR/libaegis-main/src/aegis128x2/aegis128x2.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x4_aesni.o $PACKAGE_DIR/libaegis-main/src/aegis128x4/aegis128x4_aesni.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x4_altivec.o $PACKAGE_DIR/libaegis-main/src/aegis128x4/aegis128x4_altivec.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x4_avx2.o $PACKAGE_DIR/libaegis-main/src/aegis128x4/aegis128x4_avx2.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x4_avx512.o $PACKAGE_DIR/libaegis-main/src/aegis128x4/aegis128x4_avx512.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x4_armcrypto.o $PACKAGE_DIR/libaegis-main/src/aegis128x4/aegis128x4_armcrypto.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x4_soft.o $PACKAGE_DIR/libaegis-main/src/aegis128x4/aegis128x4_soft.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x4.o $PACKAGE_DIR/libaegis-main/src/aegis128x4/aegis128x4.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256_aesni.o $PACKAGE_DIR/libaegis-main/src/aegis256/aegis256_aesni.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256_altivec.o $PACKAGE_DIR/libaegis-main/src/aegis256/aegis256_altivec.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256_armcrypto.o $PACKAGE_DIR/libaegis-main/src/aegis256/aegis256_armcrypto.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256_soft.o $PACKAGE_DIR/libaegis-main/src/aegis256/aegis256_soft.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256.o $PACKAGE_DIR/libaegis-main/src/aegis256/aegis256.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x2_aesni.o $PACKAGE_DIR/libaegis-main/src/aegis256x2/aegis256x2_aesni.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x2_altivec.o $PACKAGE_DIR/libaegis-main/src/aegis256x2/aegis256x2_altivec.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x2_avx2.o $PACKAGE_DIR/libaegis-main/src/aegis256x2/aegis256x2_avx2.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x2_armcrypto.o $PACKAGE_DIR/libaegis-main/src/aegis256x2/aegis256x2_armcrypto.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x2_soft.o $PACKAGE_DIR/libaegis-main/src/aegis256x2/aegis256x2_soft.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x2.o $PACKAGE_DIR/libaegis-main/src/aegis256x2/aegis256x2.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x4_aesni.o $PACKAGE_DIR/libaegis-main/src/aegis256x4/aegis256x4_aesni.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x4_altivec.o $PACKAGE_DIR/libaegis-main/src/aegis256x4/aegis256x4_altivec.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x4_avx2.o $PACKAGE_DIR/libaegis-main/src/aegis256x4/aegis256x4_avx2.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x4_avx512.o $PACKAGE_DIR/libaegis-main/src/aegis256x4/aegis256x4_avx512.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x4_armcrypto.o $PACKAGE_DIR/libaegis-main/src/aegis256x4/aegis256x4_armcrypto.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x4_soft.o $PACKAGE_DIR/libaegis-main/src/aegis256x4/aegis256x4_soft.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x4.o $PACKAGE_DIR/libaegis-main/src/aegis256x4/aegis256x4.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/common.o $PACKAGE_DIR/libaegis-main/src/common/common.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/cpu.o $PACKAGE_DIR/libaegis-main/src/common/cpu.c",
+		"gcc -mtune=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/softaes.o $PACKAGE_DIR/libaegis-main/src/common/softaes.c",
+		"ar rcs $PACKAGE_DIR/build/libaegis.a $PACKAGE_DIR/build/*.o",
+		"rm $PACKAGE_DIR/build/*.o"
+	],
+	"preBuildCommands-osx": [
+		"mkdir -p $PACKAGE_DIR/build $PACKAGE_DIR/include",
+		"curl -sLO https://github.com/aegis-aead/libaegis/archive/refs/heads/main.tar.gz",
+		"tar xzf main.tar.gz",
+		"rm main.tar.gz",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128l_aesni.o $PACKAGE_DIR/libaegis-main/src/aegis128l/aegis128l_aesni.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128l_altivec.o $PACKAGE_DIR/libaegis-main/src/aegis128l/aegis128l_altivec.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128l_armcrypto.o $PACKAGE_DIR/libaegis-main/src/aegis128l/aegis128l_armcrypto.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128l_soft.o $PACKAGE_DIR/libaegis-main/src/aegis128l/aegis128l_soft.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128l.o $PACKAGE_DIR/libaegis-main/src/aegis128l/aegis128l.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x2_aesni.o $PACKAGE_DIR/libaegis-main/src/aegis128x2/aegis128x2_aesni.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x2_altivec.o $PACKAGE_DIR/libaegis-main/src/aegis128x2/aegis128x2_altivec.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x2_avx2.o $PACKAGE_DIR/libaegis-main/src/aegis128x2/aegis128x2_avx2.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x2_armcrypto.o $PACKAGE_DIR/libaegis-main/src/aegis128x2/aegis128x2_armcrypto.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x2_soft.o $PACKAGE_DIR/libaegis-main/src/aegis128x2/aegis128x2_soft.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x2.o $PACKAGE_DIR/libaegis-main/src/aegis128x2/aegis128x2.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x4_aesni.o $PACKAGE_DIR/libaegis-main/src/aegis128x4/aegis128x4_aesni.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x4_altivec.o $PACKAGE_DIR/libaegis-main/src/aegis128x4/aegis128x4_altivec.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x4_avx2.o $PACKAGE_DIR/libaegis-main/src/aegis128x4/aegis128x4_avx2.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x4_avx512.o $PACKAGE_DIR/libaegis-main/src/aegis128x4/aegis128x4_avx512.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x4_armcrypto.o $PACKAGE_DIR/libaegis-main/src/aegis128x4/aegis128x4_armcrypto.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x4_soft.o $PACKAGE_DIR/libaegis-main/src/aegis128x4/aegis128x4_soft.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis128x4.o $PACKAGE_DIR/libaegis-main/src/aegis128x4/aegis128x4.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256_aesni.o $PACKAGE_DIR/libaegis-main/src/aegis256/aegis256_aesni.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256_altivec.o $PACKAGE_DIR/libaegis-main/src/aegis256/aegis256_altivec.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256_armcrypto.o $PACKAGE_DIR/libaegis-main/src/aegis256/aegis256_armcrypto.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256_soft.o $PACKAGE_DIR/libaegis-main/src/aegis256/aegis256_soft.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256.o $PACKAGE_DIR/libaegis-main/src/aegis256/aegis256.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x2_aesni.o $PACKAGE_DIR/libaegis-main/src/aegis256x2/aegis256x2_aesni.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x2_altivec.o $PACKAGE_DIR/libaegis-main/src/aegis256x2/aegis256x2_altivec.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x2_avx2.o $PACKAGE_DIR/libaegis-main/src/aegis256x2/aegis256x2_avx2.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x2_armcrypto.o $PACKAGE_DIR/libaegis-main/src/aegis256x2/aegis256x2_armcrypto.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x2_soft.o $PACKAGE_DIR/libaegis-main/src/aegis256x2/aegis256x2_soft.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x2.o $PACKAGE_DIR/libaegis-main/src/aegis256x2/aegis256x2.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x4_aesni.o $PACKAGE_DIR/libaegis-main/src/aegis256x4/aegis256x4_aesni.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x4_altivec.o $PACKAGE_DIR/libaegis-main/src/aegis256x4/aegis256x4_altivec.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x4_avx2.o $PACKAGE_DIR/libaegis-main/src/aegis256x4/aegis256x4_avx2.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x4_avx512.o $PACKAGE_DIR/libaegis-main/src/aegis256x4/aegis256x4_avx512.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x4_armcrypto.o $PACKAGE_DIR/libaegis-main/src/aegis256x4/aegis256x4_armcrypto.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x4_soft.o $PACKAGE_DIR/libaegis-main/src/aegis256x4/aegis256x4_soft.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/aegis256x4.o $PACKAGE_DIR/libaegis-main/src/aegis256x4/aegis256x4.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/common.o $PACKAGE_DIR/libaegis-main/src/common/common.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/cpu.o $PACKAGE_DIR/libaegis-main/src/common/cpu.c",
+		"clang -mcpu=native -std=c99 -O3 -fPIE -I$PACKAGE_DIR/libaegis-main/src/include -c -o $PACKAGE_DIR/build/softaes.o $PACKAGE_DIR/libaegis-main/src/common/softaes.c",
+		"ar rcs $PACKAGE_DIR/build/libaegis.a $PACKAGE_DIR/build/*.o",
+		"rm $PACKAGE_DIR/build/*.o"
+	],
+	"preBuildCommands-windows": [
+		"powershell -Command \"mkdir -Force $PACKAGE_DIR\\build\"",
+		"powershell -Command \"(New-Object Net.WebClient).DownloadFile('https://github.com/aegis-aead/libaegis/archive/refs/heads/main.zip', 'libaegis.zip')\"",
+		"powershell -Command \"Expand-Archive -Path libaegis.zip -DestinationPath . -Force; Remove-Item libaegis.zip\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128l_aesni.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128l\\aegis128l_aesni.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128l_altivec.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128l\\aegis128l_altivec.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128l_armcrypto.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128l\\aegis128l_armcrypto.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128l_soft.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128l\\aegis128l_soft.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128l.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128l\\aegis128l.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128x2_aesni.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128x2\\aegis128x2_aesni.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128x2_altivec.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128x2\\aegis128x2_altivec.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128x2_avx2.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128x2\\aegis128x2_avx2.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128x2_armcrypto.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128x2\\aegis128x2_armcrypto.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128x2_soft.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128x2\\aegis128x2_soft.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128x2.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128x2\\aegis128x2.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128x4_aesni.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128x4\\aegis128x4_aesni.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128x4_altivec.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128x4\\aegis128x4_altivec.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128x4_avx2.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128x4\\aegis128x4_avx2.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128x4_avx512.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128x4\\aegis128x4_avx512.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128x4_armcrypto.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128x4\\aegis128x4_armcrypto.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128x4_soft.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128x4\\aegis128x4_soft.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis128x4.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis128x4\\aegis128x4.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256_aesni.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256\\aegis256_aesni.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256_altivec.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256\\aegis256_altivec.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256_armcrypto.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256\\aegis256_armcrypto.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256_soft.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256\\aegis256_soft.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256\\aegis256.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256x2_aesni.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256x2\\aegis256x2_aesni.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256x2_altivec.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256x2\\aegis256x2_altivec.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256x2_avx2.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256x2\\aegis256x2_avx2.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256x2_armcrypto.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256x2\\aegis256x2_armcrypto.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256x2_soft.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256x2\\aegis256x2_soft.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256x2.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256x2\\aegis256x2.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256x4_aesni.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256x4\\aegis256x4_aesni.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256x4_altivec.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256x4\\aegis256x4_altivec.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256x4_avx2.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256x4\\aegis256x4_avx2.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256x4_avx512.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256x4\\aegis256x4_avx512.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256x4_armcrypto.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256x4\\aegis256x4_armcrypto.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256x4_soft.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256x4\\aegis256x4_soft.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\aegis256x4.obj $PACKAGE_DIR\\libaegis-main\\src\\aegis256x4\\aegis256x4.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\common.obj $PACKAGE_DIR\\libaegis-main\\src\\common\\common.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\cpu.obj $PACKAGE_DIR\\libaegis-main\\src\\common\\cpu.c /nologo\"",
+		"powershell -Command \"cl.exe /c /W4 /WX /I$PACKAGE_DIR\\libaegis-main\\src\\include /Fo:$PACKAGE_DIR\\build\\softaes.obj $PACKAGE_DIR\\libaegis-main\\src\\common\\softaes.c /nologo\"",
+		"powershell -Command \"lib.exe /OUT:$PACKAGE_DIR\\build\\aegis.lib $PACKAGE_DIR\\build\\*.obj\"",
+		"powershell -Command \"Remove-Item $PACKAGE_DIR\\build\\*.obj\""
+	]
+}
