@@ -46,5 +46,5 @@ jobs:
           arch: x64
       - name: Build
         run: dub build
-      # - name: Testing
-      #   run: dub test
+      - name: Testing
+        run: dub test
