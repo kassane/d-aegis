@@ -298,23 +298,23 @@ struct Aegis128LMACState
 unittest
 {
     import core.stdc.string : memcmp;
+    import std.random : uniform;
 
     // Initialize AEGIS library if required
     assert(aegis_init() == 0, "AEGIS initialization failed");
 
     // Test Aegis128LState encryption and decryption
-    ubyte[16] key = [
-        0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
-        0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
-    ];
-    ubyte[16] nonce = [
-        0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-        0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
-    ];
-    ubyte[] ad = [0x41, 0x42, 0x43]; // "ABC"
-    ubyte[] message = [0x48, 0x65, 0x6C, 0x6C, 0x6F]; // "Hello"
+    ubyte[aegis128l_KEYBYTES] key;
+    foreach (ref k; key)
+        k = cast(ubyte)(uniform(0, 256));
+    ubyte[aegis128l_NPUBBYTES] nonce;
+    foreach (ref n; nonce)
+        n = cast(ubyte)(uniform(0, 256));
+
+    ubyte[] ad = cast(ubyte[]) "ABC".ptr;
+    ubyte[] message = cast(ubyte[]) "Hello".ptr;
     ubyte[128] ciphertext;
-    ubyte[16] mac;
+    ubyte[aegis128l_ABYTES_MIN] mac;
     size_t written;
 
     // Encryption

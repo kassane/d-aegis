@@ -30,12 +30,10 @@
 		"aegis"
 	],
 	"libs-windows": [
-		"aegis",
-		"ws2_32"
+		"aegis"
 	],
 	"libs-windows-dmd": [
 		"aegis",
-		"ws2_32",
 		"bcrypt"
 	],
 	"lflags-linux": [
